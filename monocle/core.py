@@ -19,9 +19,10 @@ except ImportError:
 def launch(df):
     def eb(e):
         if isinstance(e, Exception):
-            import traceback
-            import sys
-            traceback.print_exception(type(e), e, sys.exc_info()[2])
+            if hasattr(e, '_monocle'):
+                sys.stderr.write(format_tb(e) + "\n")
+            else:
+                traceback.print_exception(type(e), e, sys.exc_info()[2])
     df.add_callback(eb)
 
 
